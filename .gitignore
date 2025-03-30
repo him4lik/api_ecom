@@ -1,0 +1,6 @@
+*.swp
+*.pyc
+venv/
+.ipynb*
+*.ipynb
+.DS_Store

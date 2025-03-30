@@ -1,0 +1,11 @@
+FROM mongo:6.0
+
+ENV MONGO_INITDB_ROOT_USERNAME=ubuntu
+ENV MONGO_INITDB_ROOT_PASSWORD=forgot123
+ENV MONGO_INITDB_DATABASE=ecommerce
+
+VOLUME [ "/data/db" ]
+
+EXPOSE 27017
+
+CMD ["mongod", "--bind_ip_all"]
