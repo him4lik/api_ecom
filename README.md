@@ -13,6 +13,6 @@ The core REST API backend for the inventory management system, featuring:
 
 ## Important Notes
 
-This submodule is designed to work within the parent Docker environment
-All deployment configurations are in the parent repository
+This submodule is designed to work within the parent Docker environment.
+All deployment configurations are in the parent repository.
 Database connections are configured via the parent project's .env
