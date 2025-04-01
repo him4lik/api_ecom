@@ -94,7 +94,11 @@ class ProductVariant(Document):
     
     meta = {
         "collection": "product_variants",
-        "indexes": ["product_id", "category_id"],
+        "indexes": [
+            "product_id", 
+            "category_id",
+            {"fields": ["$name", "$filters"], "default_language": "english"}
+        ],
     }
 
     def save(self, *args, **kwargs):
@@ -106,39 +110,23 @@ class ProductVariant(Document):
         if not query_string:
             return {
                 "title": "No results found",
-	            "description": f"",
+                "description": "",
                 "variants": [],
             }
 
-        matching_products = Product.objects.filter(
-            Q(name__icontains=query_string) | 
-            Q(description__icontains=query_string) |
-            Q(categories__name__icontains=query_string)
-        ).values_list("id", flat=True)
-
-        matching_filter_specs = FilterSpecs.objects.filter(
-            Q(filter_tags__icontains=query_string) |
-            Q(category__name__icontains=query_string) |
-            Q(product__name__icontains=query_string)
-        ).values_list("product_id", flat=True)
-
-        matched_product_ids = set(matching_products) | set(matching_filter_specs)
-
         variant_objs = cls.objects.filter(
-            MongoQ(product_id__in=list(matched_product_ids)) | MongoQ(filters__icontains=query_string)
+            MongoQ(__raw__={"$text": {"$search": query_string}})
         ).order_by("-sold_stock").skip(skip).limit(limit)
 
         variants = []
         for variant in variant_objs:
-            if not user_profile:
-                quantity = 0
-            else:
+            quantity = 0
+            if user_profile:
                 for item in user_profile.cart_items:
                     if item.variant_id == str(variant.id):
                         quantity = item.quantity
                         break
-                else:
-                    quantity = 0
+
             variants.append(
                 {
                     "id": str(variant.id),
@@ -155,27 +143,24 @@ class ProductVariant(Document):
                     "created_at": variant.created_at,
                     "updated_at": variant.updated_at,
                     "extra_data": variant.extra_data,
-                    "quantity": quantity
+                    "quantity": quantity,
                 }
             )
+
         filters_dict = defaultdict(set)
-    
         for variant in variant_objs:
             if variant.filters:
                 for key, value in variant.filters.items():
                     filters_dict[key].add(value)
-        
+
         filters_dict = {key: list(values) for key, values in filters_dict.items()}
 
-        result = {
+        return {
             "title": f"Results for {query_string}",
-            "description": f"",
+            "description": "",
             "filters": filters_dict,
             "variants": variants,
         }
-
-        return result
-
 
     @classmethod
     def filter_by_category_product(cls, user_profile, category_name, product_id, skip, limit):
@@ -312,3 +297,63 @@ class ProductVariant(Document):
         }
 
         return result
+
+
+
+
+@classmethod
+def filter_by_search_str(cls, user_profile, query_string, skip, limit):
+    if not query_string:
+        return {
+            "title": "No results found",
+            "description": "",
+            "variants": [],
+        }
+
+    variant_objs = cls.objects.filter(
+        MongoQ(__raw__={"$text": {"$search": query_string}})
+    ).order_by("-sold_stock").skip(skip).limit(limit)
+
+    variants = []
+    for variant in variant_objs:
+        quantity = 0
+        if user_profile:
+            for item in user_profile.cart_items:
+                if item.variant_id == str(variant.id):
+                    quantity = item.quantity
+                    break
+
+        variants.append(
+            {
+                "id": str(variant.id),
+                "product_id": variant.product_id,
+                "category_id": variant.category_id,
+                "name": variant.name,
+                "slug": slugify(variant.name),
+                "price": variant.price,
+                "file_path": variant.file_path,
+                "filters": variant.filters,
+                "current_stock": variant.current_stock,
+                "sold_stock": variant.sold_stock,
+                "is_active": variant.is_active,
+                "created_at": variant.created_at,
+                "updated_at": variant.updated_at,
+                "extra_data": variant.extra_data,
+                "quantity": quantity,
+            }
+        )
+
+    filters_dict = defaultdict(set)
+    for variant in variant_objs:
+        if variant.filters:
+            for key, value in variant.filters.items():
+                filters_dict[key].add(value)
+
+    filters_dict = {key: list(values) for key, values in filters_dict.items()}
+
+    return {
+        "title": f"Results for {query_string}",
+        "description": "",
+        "filters": filters_dict,
+        "variants": variants,
+    }
