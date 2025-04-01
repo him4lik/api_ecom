@@ -1,7 +1,7 @@
 # E-Commerce Platform API Submodule
 
-### > This is a submodule of the main [E-Commerce Platform](https://github.com/your-repo/ecommerce-platform) repository.  
-### > **All setup and deployment instructions are handled through the parent project.**
+#### > This is a submodule of the main [E-Commerce Platform](https://github.com/your-repo/ecommerce-platform) repository.  
+> **All setup and deployment instructions are handled through the parent project.**
 
 ## API Overview
 
