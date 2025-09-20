@@ -28,7 +28,8 @@ class RequestOTPView(APIView):
         username = request.data.get('username')
         otp = str(random.randint(100000, 999999))
         cache.set(f"otp_{username}", otp, timeout=3000)  # Store OTP in cache for 5 minutes
-
+        print(otp)
+        
         # TODO - send otp via SMS
 
         return Response({"message": "OTP sent successfully"})
