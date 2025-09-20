@@ -13,7 +13,6 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 import os
 from datetime import timedelta
-from mongoengine import connect
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -27,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ['DEBUG']
 
 ALLOWED_HOSTS = ['host.docker.internal', 'localhost']
 
@@ -48,6 +47,7 @@ INSTALLED_APPS = [
     'order',
     'payment',
     'user',
+    'cart',
 ]
 
 MIDDLEWARE = [
@@ -99,14 +99,6 @@ DATABASES = {
     }
 }
 
-MDB_NAME = os.environ['MDB_NAME']
-MDB_USER = os.environ['MDB_USER']
-MDB_PASSWORD = os.environ['MDB_PASSWORD']
-
-connect(
-    db=MDB_NAME,
-    host=f"mongodb://{MDB_USER}:{MDB_PASSWORD}@mongodb:27017/{MDB_NAME}?authSource=admin",
-)
 
 # Enable JWT Authentication
 
@@ -183,3 +175,6 @@ if DEBUG:
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+RZP_KEY_ID = os.environ['RZP_KEY_ID']
+RZP_SECRET_KEY = os.environ['RZP_SECRET_KEY']

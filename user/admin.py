@@ -1,3 +1,6 @@
 from django.contrib import admin
+from .models import UserAddress, UserProfile
+from inventory.models import ProductVariant
 
-# Register your models here.
+admin.site.register(UserAddress)
+admin.site.register(UserProfile)

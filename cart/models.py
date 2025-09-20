@@ -1,33 +1,12 @@
 from django.db import models
-from mongoengine import (
-	Document, 
-	StringField, 
-	ReferenceField, 
-	DateTimeField, 
-	FloatField, 
-	BooleanField, 
-	DictField, 
-	DynamicField,
-	EmbeddedDocument, 
-	ListField, 
-	EmbeddedDocumentField,
-	IntField
-)
 import datetime
+from lib.base_classes import BaseModel
+from django.contrib.auth.models import User
+from inventory.models import ProductVariant
 
-
-class CartItem(EmbeddedDocument):
-	variant_id = StringField(required=True)
-	quantity = IntField(default=1)
-	user_id = IntField(required=True)
-	created_at = DateTimeField(default=datetime.datetime.utcnow)
-	updated_at = DateTimeField(default=datetime.datetime.utcnow)
-
-	meta = {
-		"collection": "cart_items",
-		"indexes": ["user_id"],
-	}
-
-	def save(self, *args, **kwargs):
-		self.updated_at = datetime.datetime.utcnow()
-		return super().save(*args, **kwargs)
+class CartItem(BaseModel):
+    variant = models.ForeignKey(ProductVariant, on_delete=models.CASCADE, related_name="cart_items")
+    quantity = models.IntegerField(default=1)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    is_active = models.BooleanField(default=True)

@@ -1,14 +1,11 @@
 FROM python:3.8
 ENV PYTHONUNBUFFERED 1
 RUN apt-get update && apt-get install -y tesseract-ocr postgresql-client #libpq-dev binutils libproj-dev gdal-bin wkhtmltopdf qpdf libqpdf-dev nginx libblas-dev liblapack-dev libatlas-base-dev gfortran-9
-#RUN ln -s /usr/bin/gfortran-9 /usr/bin/gfortran
 RUN mkdir /code
 WORKDIR /code
 COPY requirements.txt /code/
 RUN python3 -m pip install --upgrade pip
 RUN pip3 install -r requirements.txt
 COPY . /code
-#COPY nginx.conf /etc/nginx/
 EXPOSE 8000
-# Executes the command directly without involving a shell 
 CMD ["sh", "./start_server.sh"]

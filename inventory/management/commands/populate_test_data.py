@@ -4,6 +4,7 @@ import datetime
 from inventory.models import Category, Product, FilterSpecs, ProductVariant, FeaturedProductLine
 from django.contrib.auth.models import User
 from user.models import UserProfile, UserAddress 
+from django.core.files import File
 
 
 class Command(BaseCommand):
@@ -36,7 +37,7 @@ class Command(BaseCommand):
                 name=product_name,
                 description=f"Beautifully handcrafted {product_name.lower()} made with love."
             )
-            product.categories.set([categories[cat] for cat in category_list])
+            product.categories.add(*[categories[cat] for cat in category_list])
 
         self.stdout.write(self.style.SUCCESS("Successfully populated the database!"))
 
@@ -64,12 +65,13 @@ class Command(BaseCommand):
 
                 for i in range(5):
                     price = random.choice(PRICES)
-                    variant = ProductVariant(
+                    
+                    variant = ProductVariant.objects.create(
                         name=f"{product.name} {category.name} Variant {i+1}",
                         product_id=product.id,
                         category_id=category.id,
                         price=price,
-                        file_path=f"http://localhost:8001/media/variants/variant1.jpg",
+                        file_path=f"variants/variant1.jpg",
                         filters=filter_tags,
                         current_stock=random.randint(10, 100),
                         sold_stock=random.randint(0, 50),
@@ -114,7 +116,7 @@ class Command(BaseCommand):
             }
         ]
 
-        variant_objects = list(ProductVariant.objects(is_active=True).only("id"))
+        variant_objects = list(ProductVariant.objects.filter(is_active=True).only("id"))
         variant_ids = [str(variant.id) for variant in variant_objects]
 
         i = 0
@@ -145,9 +147,12 @@ class Command(BaseCommand):
             if User.objects.filter(username=phone_number).exists():
                 continue
 
-            user = User.objects.create_user(username=phone_number, password="Test@1234")
+            user, _ = User.objects.get_or_create(username=phone_number, password="Test@1234")
 
-            address = UserAddress(
+            address = UserAddress.objects.create(
+                address_type='Home',
+                poc_name=f"test_name",
+                phone=phone_number,
                 line_1="123 Street Name",
                 city="Sample City",
                 state="Sample State",
@@ -155,11 +160,10 @@ class Command(BaseCommand):
                 landmark="Near Park"
             )
 
-            profile = UserProfile(
+            profile = UserProfile.objects.create(
                 user_id=user.id,
                 name=f"User {phone_number}",
                 email=f"user{phone_number}@example.com",
-                addresses=[address],
             )
             profile.save()
 
