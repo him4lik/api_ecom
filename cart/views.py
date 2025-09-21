@@ -100,7 +100,7 @@ class UserCartView(APIView):
                         "price": variant.price,
                         "name": variant.name,
                         "slug": slugify(variant.name),
-                        "file_path": f"http://localhost:8001{variant.file_path.url}",
+                        "file_path": f"http://localhost{variant.file_path.url}",
                         "filters": variant.filters,
                         "current_stock": variant.current_stock,
                         "sold_stock": variant.sold_stock,

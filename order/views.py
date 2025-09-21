@@ -89,7 +89,7 @@ class OrdersAPIView(APIView):
                         'total_cost': sold_product.total_cost,
                         'quantity': sold_product.quantity,
                         'product_name':variant.name,
-                        'file_path':f"http://localhost:8001{variant.file_path.url}",
+                        'file_path':f"http://localhost{variant.file_path.url}",
                         'slug': slugify(variant.name),
                     }
                     order_data['sold_products'].append(product_data)
