@@ -19,7 +19,7 @@ def get_or_create_user(username):
     profile, _ = UserProfile.objects.get_or_create(user=user)
     return user
 
-    
+
 class RequestOTPView(APIView):
     permission_classes = [AllowAny]
 

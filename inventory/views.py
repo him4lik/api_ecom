@@ -7,8 +7,11 @@ from django.db.models import Q
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.utils.text import slugify
 from user.models import UserProfile
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
 
 
+@method_decorator(cache_page(60*5), name='dispatch')
 class ProductCategoriesView(APIView):
     permission_classes = [AllowAny]
 
@@ -16,7 +19,6 @@ class ProductCategoriesView(APIView):
         categories = Category.objects.prefetch_related('product_set')
         data = {i.name:[{"id":j.id, "name":j.name, "desc":j.description} for j in i.product_set.all()] for i in categories}
         return Response(data,  status=200)
-
 
 class PopularVariantsView(APIView):
     permission_classes = [AllowAny]
@@ -47,7 +49,6 @@ class PopularVariantsView(APIView):
         ]
 
         return Response({"top_selling_variants": data}, status=200)
-
 
 
 class FeaturedProductLineView(APIView):

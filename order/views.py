@@ -117,7 +117,6 @@ class OrdersAPIView(APIView):
                 'error': 'Invalid parameter format'
             }, status=400)
             
-
 class OrderDetailAPIView(APIView):
     
     def get(self, request):
