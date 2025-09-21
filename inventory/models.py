@@ -257,7 +257,6 @@ class ProductVariant(BaseModel):
                     "is_active": variant.is_active,
                     "created_at": variant.created_at,
                     "updated_at": variant.updated_at,
-                    "extra_data": variant.extra_data,
                     "quantity": quantity
                 }
             )

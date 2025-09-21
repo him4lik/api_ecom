@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 import os
 from datetime import timedelta
-
+from celery import Celery
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'payment',
     'user',
     'cart',
+    'django_celery_beat',
 ]
 
 MIDDLEWARE = [
@@ -178,3 +179,15 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 RZP_KEY_ID = os.environ['RZP_KEY_ID']
 RZP_SECRET_KEY = os.environ['RZP_SECRET_KEY']
+
+
+CELERY_BROKER_URL = os.environ['CELERY_BROKER_URL']
+
+CELERY_RESULT_BACKEND = os.environ['CELERY_BROKER_URL']
+
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+
+CELERY_IMPORTS = [
+    'payment.tasks',
+]
