@@ -15,10 +15,3 @@ app.conf.update(
 app.config_from_object('django.conf:settings', namespace='CELERY')
 app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)
 app.Task = Task
-
-@after_setup_task_logger.connect
-def on_celery_setup(**kwargs):
-    pass
-    # from backend.tasks import refresh_scores, refresh_popularity_score
-    # refresh_popularity_score.delay()
-    # refresh_scores.delay()
