@@ -87,32 +87,32 @@ class Command(BaseCommand):
             {
                 "title": "Luxury Handmade Leather Shoes",
                 "description": "Premium handcrafted leather shoes for men.",
-                "images": ["http://localhost:8001/media/product_line/accessory1.jpg", "http://localhost:8001/media/product_line/accessory1.jpg"],
+                "images": ["http://localhost:8001/api/media/product_line/accessory1.jpg", "http://localhost:8001/api/media/product_line/accessory1.jpg"],
             },
             {
                 "title": "Elegant Handwoven Rugs",
                 "description": "Artisan-crafted rugs to enhance your living space.",
-                "images": ["http://localhost:8001/media/product_line/accessory1.jpg", "http://localhost:8001/media/product_line/accessory1.jpg"],
+                "images": ["http://localhost:8001/api/media/product_line/accessory1.jpg", "http://localhost:8001/api/media/product_line/accessory1.jpg"],
             },
             {
                 "title": "Exclusive Women's Accessories",
                 "description": "A collection of handcrafted bags, scarves, and jewelry.",
-                "images": ["http://localhost:8001/media/product_line/accessory1.jpg", "http://localhost:8001/media/product_line/accessory1.jpg"],
+                "images": ["http://localhost:8001/api/media/product_line/accessory1.jpg", "http://localhost:8001/api/media/product_line/accessory1.jpg"],
             },
             {
                 "title": "Luxury Handmade Leather wallet",
                 "description": "Premium handcrafted wallets for men.",
-                "images": ["http://localhost:8001/media/product_line/accessory1.jpg", "http://localhost:8001/media/product_line/accessory1.jpg"],
+                "images": ["http://localhost:8001/api/media/product_line/accessory1.jpg", "http://localhost:8001/api/media/product_line/accessory1.jpg"],
             },
             {
                 "title": "Elegant Handwoven crochet",
                 "description": "Artisan-crafted crochet to enhance your living space.",
-                "images": ["http://localhost:8001/media/product_line/accessory1.jpg", "http://localhost:8001/media/product_line/accessory1.jpg"],
+                "images": ["http://localhost:8001/api/media/product_line/accessory1.jpg", "http://localhost:8001/api/media/product_line/accessory1.jpg"],
             },
             {
                 "title": "Exclusive Women's bag",
                 "description": "A collection of handcrafted bags",
-                "images": ["http://localhost:8001/media/product_line/accessory1.jpg", "http://localhost:8001/media/product_line/accessory1.jpg"],
+                "images": ["http://localhost:8001/api/media/product_line/accessory1.jpg", "http://localhost:8001/api/media/product_line/accessory1.jpg"],
             }
         ]
 

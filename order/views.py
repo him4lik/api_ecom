@@ -177,7 +177,7 @@ class CreateOrderView(APIView):
         else:
             raise Exception('Shipping address not found')
 
-        total_cost = sum([ item.variant.price*item.quantity for item in user_profile.cart_items.all() ])
+        total_cost = sum([ item.variant.price*item.quantity for item in user_profile.cart_items.filter(is_active=True) ])
         shipping = calculate_shipping(user)
         order = Order(
             user=user,
@@ -190,7 +190,7 @@ class CreateOrderView(APIView):
 
         order.save()
 
-        for item in user_profile.cart_items.all():
+        for item in user_profile.cart_items.filter(is_active=True):
             product = ProductVariant.objects.filter(id=item.variant.id).first()
             sold_product = SoldProduct(
                 variant=item.variant,
