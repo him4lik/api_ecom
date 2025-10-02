@@ -1,6 +1,6 @@
 # E-Commerce Platform API Submodule
 
-> This is a submodule of the main [E-Commerce Platform](https://github.com/your-repo/ecommerce-platform) repository.  
+> This is a submodule of the main [E-Commerce Platform](https://github.com/him4lik/deploy-ecom) repository.  
 > **All setup and deployment instructions are handled through the parent project.**
 
 ## API Overview
