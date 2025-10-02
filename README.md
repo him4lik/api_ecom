@@ -9,10 +9,12 @@ The core REST API backend for the inventory management system, featuring:
 
 - Product catalog management
 - JWT authentication
-- Multi-database support (PostgreSQL + MongoDB)
+- Database support (PostgreSQL)
+- Razorpay Integration
+- Order placement and management
 
 ## Important Notes
 
 This submodule is designed to work within the parent Docker environment.
 All deployment configurations are in the parent repository.
-Database connections are configured via the parent project's .env
+Database connections are configured via the parent project's .env and .env_dev files
